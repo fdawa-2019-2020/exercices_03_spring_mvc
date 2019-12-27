@@ -9,7 +9,9 @@
   
   <logger name="org.springframework.web.servlet.mvc"  level="debug" />
  
-  <root level="debug">
+  <logger name="org.uvsq.ds.springmvc101"  level="debug" />
+
+  <root level="info">
     <appender-ref ref="STDOUT" />
   </root>
 </configuration>
