@@ -8,7 +8,7 @@
   <logger name="org.springframework.web.servlet.DispatcherServlet" level="debug" /> 
   
   <logger name="org.springframework.web.servlet.mvc"  level="debug" />
- 
+  
   <logger name="org.uvsq.ds.springmvc101"  level="debug" />
 
   <root level="info">
