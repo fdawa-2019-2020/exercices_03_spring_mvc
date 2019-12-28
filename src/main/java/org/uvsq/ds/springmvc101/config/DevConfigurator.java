@@ -27,17 +27,18 @@ public class DevConfigurator implements ApplicationListener<ContextRefreshedEven
 		logger.info("Configure projectService");
 		
 		ProjectService projectService = event.getApplicationContext().getBean(ProjectService.class);
-		Map<String, Nature> setup = new HashMap<>();
-		setup.put("MagicCakeFactory", Nature.OFFICIAL);
-		setup.put("BloodyMary", Nature.OPEN);
-		setup.put("AwesomeBanck", Nature.OFFICIAL);
-		setup.put("Open-sea-action", Nature.OPEN);
-		setup.put("save-zi-planet", Nature.OPEN);
 		
-		setup.keySet().forEach(key -> {
+		Map<String, Nature> nameAndNature = new HashMap<>();
+		nameAndNature.put("MagicCakeFactory", Nature.OFFICIAL);
+		nameAndNature.put("BloodyMary", Nature.OPEN);
+		nameAndNature.put("AwesomeBanck", Nature.OFFICIAL);
+		nameAndNature.put("Open-sea-action", Nature.OPEN);
+		nameAndNature.put("save-zi-planet", Nature.OPEN);
+		
+		nameAndNature.keySet().forEach(key -> {
 			Project p = new Project();
 			p.setName(key);
-			p.setNature(setup.get(key));
+			p.setNature(nameAndNature.get(key));
 			projectService.createProject(p);
 		});
 		
