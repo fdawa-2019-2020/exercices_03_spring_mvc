@@ -29,9 +29,17 @@ public class ProjectService {
 		return p;
 	}
 	
-	public Project getProjectById(Long id) {
-		Optional<Project> op = projectByName.values().stream().filter(p -> p.getId().equals(id)).findFirst();
-		return op.orElse(null);
+	public Optional<Project> getProjectById(Long id) {
+		return projectByName.values().stream().filter(p -> p.getId().equals(id)).findFirst();
 	}
+	
+	public Optional<Project> updateProjectWithTag(Long id, String tag) {
+		Optional<Project> op = this.getProjectById(id);
+		if ( op.isPresent() ) {
+			op.get().getTags().add(tag);
+		}
+		return op;
+	}
+
 
 }

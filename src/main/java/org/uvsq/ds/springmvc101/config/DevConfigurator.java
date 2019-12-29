@@ -2,6 +2,9 @@ package org.uvsq.ds.springmvc101.config;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,13 +38,22 @@ public class DevConfigurator implements ApplicationListener<ContextRefreshedEven
 		nameAndNature.put("Open-sea-action", Nature.OPEN);
 		nameAndNature.put("save-zi-planet", Nature.OPEN);
 		
+		String[] tags = new String[] {"java", "nosql", "ia", "machine-learning", "devops", "green-it", "python", "agile"};
+		
 		nameAndNature.keySet().forEach(key -> {
 			Project p = new Project();
 			p.setName(key);
 			p.setNature(nameAndNature.get(key));
+			Set<String> pTags = createRandomTagSetFrom(tags);
+			p.setTags(pTags);
 			projectService.createProject(p);
 		});
 		
+	}
+
+	private Set<String> createRandomTagSetFrom(String[] tags) {
+		Random r = new Random();
+		return r.ints(3, 0, tags.length).mapToObj(i -> tags[i]).collect(Collectors.toSet());
 	}
 
 }
