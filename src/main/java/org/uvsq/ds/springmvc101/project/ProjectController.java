@@ -4,34 +4,49 @@ import static java.util.stream.Collectors.toList;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class ProjectController {
 
 	private ProjectService projectService;
+	private Logger logger = LoggerFactory.getLogger(ProjectController.class);
 
 	public ProjectController(ProjectService projectService) {
 		this.projectService = projectService;
 	}
 
-	@GetMapping("/projects")
+	@GetMapping(path="/projects")
 	@ResponseBody
 	public List<Project> getAllProjects() {
 		return projectService.getAllProjects();
 	}
 
+	@GetMapping(path="/search-projects")
+	@ResponseBody
+	public List<Project> searchProjects(@RequestParam(required = false, defaultValue = "OPENED") State state, 
+										@RequestParam(required = false) Nature nature,
+										@RequestParam(required = false) List<String> tags) {
+		logger.info("SearchProjects with {}, {}, {}", state, nature, tags);
+		return projectService.getAllProjects().stream()
+				.filter(p -> state == null || p.getState() ==  state)
+				.filter(p -> nature == null || p.getNature() ==  nature)
+				.filter(p -> tags == null || p.getTags().containsAll(tags))
+				.collect(toList());
+	}
+
+	
+	
 	@PostMapping("/projects-random")
 	@ResponseBody
 	public Project createRandomProject() {
@@ -95,6 +110,8 @@ public class ProjectController {
 			.filter(p -> p.getTags().containsAll(tags))
 			.collect(toList());
 	}
+	
+	
 	
 		
 }

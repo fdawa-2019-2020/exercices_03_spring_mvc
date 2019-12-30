@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 import org.uvsq.ds.springmvc101.project.Nature;
 import org.uvsq.ds.springmvc101.project.Project;
 import org.uvsq.ds.springmvc101.project.ProjectService;
+import org.uvsq.ds.springmvc101.project.State;
 
 @Component
 public class DevConfigurator implements ApplicationListener<ContextRefreshedEvent>{
@@ -37,6 +38,11 @@ public class DevConfigurator implements ApplicationListener<ContextRefreshedEven
 		nameAndNature.put("AwesomeBanck", Nature.OFFICIAL);
 		nameAndNature.put("Open-sea-action", Nature.OPEN);
 		nameAndNature.put("save-zi-planet", Nature.OPEN);
+		nameAndNature.put("draw-futur", Nature.OFFICIAL);
+		nameAndNature.put("be-boop-a-loup-la", Nature.OPEN);
+		nameAndNature.put("toinfiniteandbeyond", Nature.OFFICIAL);
+		nameAndNature.put("moneymoney", Nature.OFFICIAL);
+		nameAndNature.put("same-player-shoot-again", Nature.OPEN);
 		
 		String[] tags = new String[] {"java", "nosql", "ia", "machine-learning", "devops", "green-it", "python", "agile"};
 		
@@ -46,6 +52,7 @@ public class DevConfigurator implements ApplicationListener<ContextRefreshedEven
 			p.setNature(nameAndNature.get(key));
 			Set<String> pTags = createRandomTagSetFrom(tags);
 			p.setTags(pTags);
+			p.setState(createRandomState());
 			projectService.createProject(p);
 		});
 		
@@ -55,5 +62,10 @@ public class DevConfigurator implements ApplicationListener<ContextRefreshedEven
 		Random r = new Random();
 		return r.ints(3, 0, tags.length).mapToObj(i -> tags[i]).collect(Collectors.toSet());
 	}
+	
+	private State createRandomState() {
+		Random r = new Random();
+		return r.ints(1, 0, State.values().length).mapToObj(i -> State.values()[i]).findAny().get();
+	}	
 
 }
