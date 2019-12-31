@@ -21,10 +21,12 @@
 						<form:form action="${editPersonUrl}" method="POST"
 							modelAttribute="person">
 							<div class="form-group">
+								<form:label path="id">id</</form:label>
+								<form:input class="form-control" path="id" readonly="true"></form:input>
+							</div>
+							<div class="form-group">
 								<form:label path="login">Login</</form:label>
 								<form:input class="form-control" path="login" readonly="true"></form:input>
-								<form:errors path="login" cssClass="error" />
-
 							</div>
 							<div class="form-group">
 								<form:label path="firstname">First name</</form:label>
