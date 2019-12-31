@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -59,6 +60,29 @@ public class AppPersonController {
 		}
 		model.addAttribute("person", person);
 		return "app/persons/edit";
+	}
+	
+	
+	@PostMapping("/edit")
+	public String editAppPerson(@ModelAttribute Person person, BindingResult result, Model model) {
+		if ( result.hasErrors() ) {
+			return "app/persons/edit";
+		}
+		Long id = person.getId();
+		if ( id == null ) {
+			personService.createPerson(person);	
+		} else {
+			Optional<Person> op = personService.getPersonById(id);
+			if ( op.isPresent() ) {
+				Person existing = op.get();
+				existing.setFirstname(person.getFirstname());
+				existing.setLastname(person.getLastname());
+				personService.updatePerson(existing);
+			}
+		}
+
+		model.addAttribute("id", person.getId());
+		return "redirect:/app/persons/view/{id}";
 	}
 
 
