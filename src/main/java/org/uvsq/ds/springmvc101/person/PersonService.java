@@ -26,7 +26,7 @@ public class PersonService {
 			throw new IllegalArgumentException(String.format("Login %s is already in use", login));
 		} 
 		
-		if (login == null ) {
+		if (login == null || login.trim().length() == 0) {
 			login = generateUnusedLogin(person);
 		}
 		long id = (long) personsByLogin.size();
