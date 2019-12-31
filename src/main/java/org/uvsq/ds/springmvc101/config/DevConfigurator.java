@@ -1,5 +1,6 @@
 package org.uvsq.ds.springmvc101.config;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -11,6 +12,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
+import org.uvsq.ds.springmvc101.person.Person;
+import org.uvsq.ds.springmvc101.person.PersonService;
 import org.uvsq.ds.springmvc101.project.Nature;
 import org.uvsq.ds.springmvc101.project.Project;
 import org.uvsq.ds.springmvc101.project.ProjectService;
@@ -30,7 +33,49 @@ public class DevConfigurator implements ApplicationListener<ContextRefreshedEven
 		
 		logger.info("Configure projectService");
 		
-		ProjectService projectService = event.getApplicationContext().getBean(ProjectService.class);
+		createProjects(event.getApplicationContext().getBean(ProjectService.class));
+		createPersons(event.getApplicationContext().getBean(PersonService.class));
+		
+	}		
+
+	private void createPersons(PersonService personService) {
+		
+		String[][] names = new String[][] {
+			{ "Nola", "Lang" },
+			{ "Marley", "Cole" },
+			{ "Jack", "Davenport" },
+			{ "Jocelyn", "Rich" },
+			{ "Cameron", "Rosario" },
+			{ "Jaime", "Morales" },
+			{ "Evie", "Dudley" },
+			{ "Anabella", "Buckley" },
+			{ "Courtney", "Curtis" },
+			{ "Alexander", "Williamson" },
+			{ "Sarahi", "Weaver" },
+			{ "Karma", "Sherman" },
+			{ "Janae", "Gill" },
+			{ "Clinton", "Burgess" },
+			{ "Stacy", "Farley" },
+			{ "Malik", "Howell" },
+			{ "Nehemiah", "Combs" },
+			{ "Marshall", "Pineda" },
+			{ "Ruby", "Heath" },
+			{ "Addisyn", "Hoffman" },
+		};
+		
+		Arrays.stream(names).forEach(name -> {
+			String firstname = name[0];
+			String lastname  = name[1];
+			Person person = new Person();
+			person.setFirstname(firstname);
+			person.setLastname(lastname);
+			personService.createPerson(person);
+		});
+			
+		
+	};
+
+	private void createProjects(ProjectService projectService) {
 		
 		Map<String, Nature> nameAndNature = new HashMap<>();
 		nameAndNature.put("MagicCakeFactory", Nature.OFFICIAL);
@@ -54,8 +99,7 @@ public class DevConfigurator implements ApplicationListener<ContextRefreshedEven
 			p.setTags(pTags);
 			p.setState(createRandomState());
 			projectService.createProject(p);
-		});
-		
+		});		
 	}
 
 	private Set<String> createRandomTagSetFrom(String[] tags) {
