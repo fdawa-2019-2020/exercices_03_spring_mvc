@@ -14,10 +14,18 @@
 			<ul class="nav navbar-nav navbar-right">
 			
 				<s:url var="projectsUrl" value="/app/projects"/>
-				<s:url var="personsUrl" value="/app/persons"/>
-			
+				<s:url var="personsBase" value="/app/persons"/>
 				<li><a href="${projectsUrl}">Projects</a></li>
-				<li><a href="${personsUrl}">Persons</a></li>
+				<li class="dropdown">
+					<a href="#" 
+						class="dropdown-toggle" 
+						data-toggle="dropdown" 
+						role="button">Persons<span class="caret"></span>
+					</a>
+					<ul class="dropdown-menu">
+						<li><a href="${personsBase}/list">Lister les personnes</a></li>
+						<li><a href="${personsBase}/edit">Créer une personne</a></li>
+					</ul>
 			</ul>
 		</div>
 	</div>

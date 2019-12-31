@@ -14,14 +14,16 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-md-offset-2 col-md-8">
-					<h2>Edition</h2>
+					<h2>Vue de détails</h2>
 					<div class="row">
 						<s:url var="editPersonUrl" value="/app/persons/edit"></s:url>
+						<c:if test="${not empty person}">
 						<table class="table table-striped">
+							<s:url var="editUrl" value="/app/persons/edit/${person.id}"/>
 							<tbody>
 								<tr>
 									<td><b>Id</b></td>
-									<td>${person.id}</td>
+									<td>${person.id} &nbsp;(<a href="${editUrl}">éditer</a>)</td>
 								</tr>
 
 								<tr>
@@ -54,6 +56,10 @@
 								</tr>
 							</tbody>
 						</table>
+						</c:if>
+						<c:if test="${empty person}">
+							Aucune personne trouvée.
+						</c:if>
 					</div>
 				</div>
 			</div>

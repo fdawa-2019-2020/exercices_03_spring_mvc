@@ -13,6 +13,7 @@
 	<main role="main">
 		<div class="container">
 			<div class="row">
+				<h2>Liste de personnes</h2>
 				<table class="table table-striped">
 					<thead>
 						<tr>
@@ -26,7 +27,9 @@
 					</tbody>
 					<c:forEach items="${persons}" var="person">
 						<tr>
-							<td>${person.id}</td>
+							<s:url var="viewUrl" value="/app/persons/view/${person.id}"/>
+							<s:url var="editUrl" value="/app/persons/edit/${person.id}"/>
+							<td>${person.id}&nbsp;(<a href="${viewUrl}">voir</a>, <a href="${editUrl}">éditer</a>)</td>
 							<td>${person.login}</td>
 							<td>${person.firstname}</td>
 							<td>${person.lastname}</td>
