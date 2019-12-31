@@ -2,6 +2,8 @@ package org.uvsq.ds.springmvc101.person;
 
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -64,7 +66,7 @@ public class AppPersonController {
 	
 	
 	@PostMapping("/edit")
-	public String editAppPerson(@ModelAttribute Person person, BindingResult result, Model model) {
+	public String editAppPerson(@Valid @ModelAttribute Person person, BindingResult result, Model model) {
 		if ( result.hasErrors() ) {
 			return "app/persons/edit";
 		}

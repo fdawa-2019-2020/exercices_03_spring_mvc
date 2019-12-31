@@ -41,5 +41,9 @@ public class ProjectService {
 		return op;
 	}
 
+	public Optional<Project> getProjectByName(String name) {
+		return Optional.ofNullable(projectByName.get(name));
+	}
+
 
 }

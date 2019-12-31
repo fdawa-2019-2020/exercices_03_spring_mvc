@@ -1,7 +1,9 @@
 package org.uvsq.ds.springmvc101.config;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
@@ -12,6 +14,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
+import org.springframework.util.Assert;
+import org.uvsq.ds.springmvc101.association.Association;
+import org.uvsq.ds.springmvc101.association.AssociationService;
 import org.uvsq.ds.springmvc101.person.Person;
 import org.uvsq.ds.springmvc101.person.PersonService;
 import org.uvsq.ds.springmvc101.project.Nature;
@@ -35,8 +40,24 @@ public class DevConfigurator implements ApplicationListener<ContextRefreshedEven
 		
 		createProjects(event.getApplicationContext().getBean(ProjectService.class));
 		createPersons(event.getApplicationContext().getBean(PersonService.class));
+		createAssociations(event.getApplicationContext().getBean(AssociationService.class));
 		
 	}		
+
+	private void createAssociations(AssociationService bean) {
+		List<List<Long>> list = createRandomId(5, 5);
+		List<Long> personIds = list.get(0);
+		List<Long> projectIds = list.get(1);
+		for (int i = 0; i < personIds.size(); i++) {
+			Association association = new Association();
+			association.setPersonId(personIds.get(i));
+			association.setProjectId(projectIds.get(i));
+			association.setRate(createRandomRate());
+			bean.createOrUpdate(association);
+			
+		}
+		
+	}
 
 	private void createPersons(PersonService personService) {
 		
@@ -107,9 +128,25 @@ public class DevConfigurator implements ApplicationListener<ContextRefreshedEven
 		return r.ints(3, 0, tags.length).mapToObj(i -> tags[i]).collect(Collectors.toSet());
 	}
 	
+	private int createRandomRate() {
+		Random r = new Random();
+		return r.nextInt(100);
+	}
+	
 	private State createRandomState() {
 		Random r = new Random();
 		return r.ints(1, 0, State.values().length).mapToObj(i -> State.values()[i]).findAny().get();
 	}	
+	
+	private List<List<Long>> createRandomId(int maxPerson, int maxProject) {
+		Random r = new Random();
+		List<Long> randomPersonId = r.longs(5, 0, maxPerson).mapToObj(Long::new).collect(Collectors.toList());
+		List<Long> randomProjectId = r.longs(5, 0, maxProject).mapToObj(Long::new).collect(Collectors.toList());
+		List<List<Long>> result = new ArrayList<List<Long>>();
+		result.add(randomPersonId);
+		result.add(randomProjectId);
+		return result;
+		
+	}
 
 }

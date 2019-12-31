@@ -8,6 +8,8 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.stereotype.Component;
+import org.uvsq.ds.springmvc101.project.Nature;
+import org.uvsq.ds.springmvc101.project.Project;
 
 @Component
 public class PersonService {
@@ -75,6 +77,17 @@ public class PersonService {
 
 
 	public Optional<Person> getPersonById(Long id) {
-		return personsByLogin.values().stream().filter(p -> p.getId() == id).findFirst();
+		return personsByLogin.values().stream().filter(p -> p.getId().equals(id)).findFirst();
+	}
+
+
+	public void updateProjectAssociation(Person person, Project project, Integer rate) {
+		person.getParticipationPerProjectName().put(project.getName(), rate);		
+	}
+
+
+	public Integer deleteProjectAssociatation(Person person, Project project) {
+		return person.getParticipationPerProjectName().remove(project.getName());
+		
 	}
 }

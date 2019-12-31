@@ -1,13 +1,18 @@
 package org.uvsq.ds.springmvc101.person;
 
+import java.util.HashMap;
 import java.util.Map;
+
+import javax.validation.constraints.NotEmpty;
 
 public class Person implements Comparable<Person>{
 
 	private Long id;
+	@NotEmpty
 	private String firstname;
+	@NotEmpty
 	private String lastname;
-	private Map<String, Integer> participationPerProjectName;
+	private Map<String, Integer> participationPerProjectName = new HashMap<>();
 	private String login;
 	
 	public Long getId() {
